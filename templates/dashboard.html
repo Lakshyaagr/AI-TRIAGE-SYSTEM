@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Triage Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="/">
+            AI Triage System
+        </a>
+
+        <div>
+            <a class="btn btn-light me-2" href="/">
+                Home
+            </a>
+
+            <a class="btn btn-success me-2" href="/dashboard">
+                Dashboard
+            </a>
+
+            <a class="btn btn-warning" href="/chat">
+                AI Chat
+            </a>
+
+            <a class="btn btn-info" href="/qa">
+                Document Q&A
+            </a>
+        </div>
+
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <h1 class="mb-4">AI Triage Dashboard</h1>
+
+    <!-- KPI Cards -->
+    <div class="row mt-4">
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>Total Files</h5>
+                    <h2>{{ total_files }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>Billing Cases</h5>
+                    <h2>{{ billing_count }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>Human Reviews</h5>
+                    <h2>{{ human_reviews }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center shadow">
+                <div class="card-body">
+                    <h5>Avg Confidence</h5>
+                    <h2>{{ avg_confidence }}%</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="my-5">
+
+    <!-- Recent Cases -->
+    <h3>Recent Cases</h3>
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+            <tr>
+                <th>File Name</th>
+                <th>Category</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% if records %}
+
+            {% for row in records %}
+
+            <tr>
+                <td>{{ row.filename }}</td>
+                <td>{{ row.category }}</td>
+                <td>{{ row.priority }}</td>
+            </tr>
+
+            {% endfor %}
+
+        {% else %}
+
+            <tr>
+                <td colspan="3" class="text-center">
+                    No files analyzed yet
+                </td>
+            </tr>
+
+        {% endif %}
+
+        </tbody>
+
+    </table>
+
+    <hr class="my-5">
+
+    <!-- Human Review Queue -->
+    <h3>Human Review Queue</h3>
+
+    <table class="table table-bordered">
+
+        <thead class="table-warning">
+            <tr>
+                <th>File</th>
+                <th>Reason</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% if human_review_cases %}
+            {% for row in human_review_cases %}
+            
+            <tr>
+                <td>{{ row.filename }}</td>
+                <td>Low Confidence ({{ row.confidence }}%)</td>
+                <td>Pending Review</td>
+            </tr>
+            
+            {% endfor %}
+            
+        {% else %}
+            <tr>
+                <td colspan="3" class="text-center">
+                    No Human Reviews Needed
+                </td>
+            </tr>
+            
+        {% endif %}
+
+        </tbody>
+
+    </table>
+
+    <hr class="my-5">
+
+    <!-- Future Charts Section -->
+    <h3>Analytics (Coming Next)</h3>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>Category Distribution</h5>
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>Priority Distribution</h5>
+                    <canvas id="priorityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- ADD THIS JAVASCRIPT -->
+<script>
+
+const categoryData = {{ category_counts | tojson }};
+
+const labels = Object.keys(categoryData);
+const values = Object.values(categoryData);
+
+new Chart(
+    document.getElementById('categoryChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cases',
+                data: values
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    }
+);
+
+</script>
+
+<script>
+
+const priorityData = {{ priority_counts | tojson }};
+
+const priorityLabels = Object.keys(priorityData);
+const priorityValues = Object.values(priorityData);
+
+new Chart(
+    document.getElementById('priorityChart'),
+    {
+        type: 'pie',
+        data: {
+            labels: priorityLabels,
+            datasets: [{
+                data: priorityValues
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+[
+  {
+    "text": "My payment was deducted twice",
+    "expected_category": "billing",
+    "expected_priority": "P0"
+  },
+  {
+    "text": "Website is not working properly",
+    "expected_category": "technical",
+    "expected_priority": "P1"
+  },
+  {
+    "text": "How do I reset my password?",
+    "expected_category": "account",
+    "expected_priority": "P3"
+  },
+  {
+    "text": "asdfgh",
+    "expected_category": "other",
+    "expected_priority": "P3"
+  }
+]

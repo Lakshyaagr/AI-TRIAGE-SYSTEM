@@ -1,0 +1,15 @@
+filename,category,priority,confidence,sentiment,action
+
+sample.txt,Payment Issue,High,95,Negative,Review
+complaint.txt,Email Support,High,95,Negative,Escalate to Support Team
+technical.txt,Login Issue,Medium,95,Negative,Review
+REFUND.pdf,Unknown,Medium,95,Negative,Review
+REFUND.pdf,Unknown,Medium,95,Negative,Review
+REFUND.pdf,Unknown,Medium,95,Negative,Review
+complaint.txt,complaint,high,95,Negative,Review
+complaint.txt,complaint,high,95,Negative,Review
+complaint.txt,complaint,high,95,Negative,Review
+complaint.txt,complaint,high,95,Negative,Review
+REFUND.pdf,other,low,90,Neutral,"No action required, this is a general information post."
+complaint.txt,complaint,high,90,Neutral,"Investigate and respond to the customer's emails, and provide a resolution to their issue."
+complaint.txt,complaint,P1,90,Neutral,"Investigate and respond to the customer's emails, provide a resolution or explanation"

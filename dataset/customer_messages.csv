@@ -1,0 +1,5 @@
+message,category,priority,action
+"My payment was deducted twice",Billing,P1,Human Review
+"I forgot my password",Account Access,P3,Auto Reply
+"Website crashes after login",Technical,P2,Tech Team
+"Great service",Feedback,P4,Close Ticket
