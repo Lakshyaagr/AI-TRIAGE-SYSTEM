@@ -12,3 +12,5 @@ data/
 
 # virtual environment
 venv/
+
+*.pyc
